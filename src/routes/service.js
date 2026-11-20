@@ -63,9 +63,9 @@ function parseServicePayload(body, { partial = false } = {}) {
 const SORTS = { "price-asc": { price: 1 }, "price-desc": { price: -1 } }
 
 /**
- * GET /api/v1/services?search=&category=&sort=
- * Public listing — anonymous visitors see active services only; a signed-in
- * admin sees every service (needed by the Manage Services dashboard).
+ * GET /api/v1/services?search=&category=&sort=&includeInactive=true
+ * Public listing — everyone sees active services only. The Manage Services
+ * dashboard (admin only) opts in to inactive rows with `includeInactive=true`.
  */
 router.get("/", optionalAuth, async (req, res, next) => {
   try {
@@ -80,8 +80,9 @@ router.get("/", optionalAuth, async (req, res, next) => {
       query.category = String(req.query.category).trim()
     }
 
-    const isAdmin = req.user?.role === "admin"
-    if (!isAdmin) query.status = "active"
+    const includeInactive =
+      req.user?.role === "admin" && req.query.includeInactive === "true"
+    if (!includeInactive) query.status = "active"
 
     const sort = SORTS[req.query.sort] ?? { createdAt: -1 }
     const services = await Service.find(query).sort(sort).lean()
