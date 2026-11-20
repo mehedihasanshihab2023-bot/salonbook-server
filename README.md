@@ -176,8 +176,8 @@ ADMIN_PASSWORD
 ## Related
 
 - **Live website:** _add the deployed client URL here_
-- **Client repository:** the SalonBook Next.js frontend (see its README for
-  routes, demo accounts and environment variables).
+- **Client repository:** https://github.com/mehedihasanshihab2023-bot/A9
+- **Server repository:** https://github.com/mehedihasanshihab2023-bot/salonbook-server
 
 ## Required Application URLs
 
