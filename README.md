@@ -175,5 +175,16 @@ ADMIN_PASSWORD
 
 ## Related
 
-- Client repository: the SalonBook Next.js frontend (see its README for routes,
-  demo accounts and environment variables).
+- **Live website:** _add the deployed client URL here_
+- **Client repository:** the SalonBook Next.js frontend (see its README for
+  routes, demo accounts and environment variables).
+
+## Required Application URLs
+
+| Variable | Purpose | Local value |
+| -------- | ------- | ----------- |
+| `SERVER_URL` | Public HTTPS URL of this API (Better Auth base URL) | `http://localhost:5000` |
+| `CLIENT_URL` | Public HTTPS URL of the Next.js app (CORS + Stripe redirects) | `http://localhost:3000` |
+
+Both must match the deployed origins exactly; a mismatch produces CORS or
+authentication-callback errors in production.
