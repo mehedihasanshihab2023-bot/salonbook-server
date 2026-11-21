@@ -5,6 +5,9 @@
   "type": "module",
   "description": "SalonBook REST API — Express.js, MongoDB, Better Auth, JWT, Stripe, ImgBB",
   "main": "src/server.js",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "dev": "node --watch-path=src --watch src/server.js",
     "start": "node src/server.js",

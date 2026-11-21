@@ -172,6 +172,11 @@ ADMIN_PASSWORD
    it, uploads return a clear `503` and the UI falls back to an error toast.
 7. **Admin:** provision the first administrator with
    `npm run create-admin -- "Admin Name" admin@example.com "StrongPassword1"`.
+8. **Render:** the repository ships a `render.yaml` blueprint. Create a new
+   **Blueprint** from this repo, enter the secret values when prompted, then set
+   `SERVER_URL` to the generated `https://<service>.onrender.com` URL once the
+   first deploy finishes. The service exposes `GET /api/health` for Render's
+   health check.
 
 ## Related
 
