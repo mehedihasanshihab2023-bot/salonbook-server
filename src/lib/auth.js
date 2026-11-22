@@ -1,4 +1,5 @@
 import { betterAuth } from "better-auth"
+import { createAuthMiddleware, APIError } from "better-auth/api"
 import { mongodbAdapter } from "better-auth/adapters/mongodb"
 import { toNodeHandler } from "better-auth/node"
 import mongoose from "mongoose"
@@ -29,17 +30,28 @@ export function createAuth() {
     }),
     emailAndPassword: {
       enabled: true,
-      password: {
-        // Minimum 6 characters — uppercase/lowercase are validated client-side
-        // and double-checked here so weak passwords never reach the database.
-        verify: (password) => {
-          if (password.length < 6) return false
-          if (!/[A-Z]/.test(password)) return false
-          if (!/[a-z]/.test(password)) return false
-          return true
-        },
-        min: 6,
-      },
+      // Minimum 6 characters (uppercase/lowercase are enforced below).
+      minPasswordLength: 6,
+    },
+    hooks: {
+      before: createAuthMiddleware(async (ctx) => {
+        // Enforce the sign-up password policy on the server too — the client
+        // form is only a convenience, never the source of truth.
+        if (ctx.path === "/sign-up/email") {
+          const password = ctx.body?.password
+          if (typeof password !== "string") {
+            throw new APIError("BAD_REQUEST", {
+              message: "A password is required.",
+            })
+          }
+          if (!/[A-Z]/.test(password) || !/[a-z]/.test(password)) {
+            throw new APIError("BAD_REQUEST", {
+              message:
+                "Password must include at least one uppercase and one lowercase letter.",
+            })
+          }
+        }
+      }),
     },
     socialProviders: {
       google: {
