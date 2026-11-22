@@ -6,3 +6,6 @@ uploads
 .mongo-data
 *.log
 .DS_Store
+
+.vercel
+.env*
